@@ -10,13 +10,12 @@ set(PROJECT_VERSION_PATCH 0)
 set(PROJECT_RELEASE_TYPE "release")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}-${PROJECT_RELEASE_TYPE}")
 
-# 生成 config.h
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/config.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/config.h"
 )
 
-# 收集头文件和源码文件
+# Collect source and header files
 file(GLOB HEADER_FILES include/*.h)
 file(GLOB SOURCE_FILES src/*.cpp)
 message(STATUS "HEADER_FILES: ${HEADER_FILES}")
@@ -24,52 +23,39 @@ message(STATUS "SOURCE_FILES: ${SOURCE_FILES}")
 
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
 
-# 拷贝资源目录
+message(STATUS "CMAKE_RUNTIME_OUTPUT_DIRECTORY: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 file(REMOVE_RECURSE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resource")
 file(COPY
     "${CMAKE_CURRENT_SOURCE_DIR}/resource"
     DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
 )
 
-# 查找 Boost
-add_definitions(-DBOOST_USE_WINAPI_VERSION=0x0600)
-find_package(Boost 1.83 REQUIRED COMPONENTS log log_setup)
-if (Boost_FOUND)
-    message(STATUS "Boost library status:")
-    message(STATUS "    Boost_VERSION: ${Boost_VERSION}")
-    message(STATUS "    Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
-    message(STATUS "    Boost_LIBRARIES: ${Boost_LIBRARIES}")
-else ()
-    message(FATAL_ERROR "Boost not found.")
-endif ()
-
-# 查找 ZLIB
+# Find dependencies using vcpkg CONFIG mode (CMake >= 3.31 compatible)
+find_package(boost_log CONFIG REQUIRED)
+find_package(boost_log_setup CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
-if (ZLIB_FOUND)
-    message(STATUS "ZLIB version: ${ZLIB_VERSION_STRING}")
-else ()
-    message(FATAL_ERROR "ZLIB not found.")
-endif ()
+find_package(libzip CONFIG REQUIRED)
 
-# 查找 libzip
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBZIP REQUIRED libzip)
-if (LIBZIP_FOUND)
-    message(STATUS "LibZip version: ${LIBZIP_VERSION}")
-else ()
-    message(FATAL_ERROR "LibZip not found.")
-endif ()
+add_executable(skins_generator src/Generator.cpp ${HEADER_FILES} ${SOURCE_FILES})
+target_compile_options(skins_generator PRIVATE -O2)
 
-include_directories(${LIBZIP_INCLUDE_DIRS})
-link_directories(${LIBZIP_LIBRARY_DIRS})
-
-# 可执行文件
-add_executable(skins_generator ${SOURCE_FILES} ${HEADER_FILES})
-target_compile_options(skins_generator PUBLIC -O2)
-
-# 链接库
 target_link_libraries(skins_generator
-    ${Boost_LIBRARIES}
-    ${LIBZIP_LIBRARIES}
-    ZLIB::ZLIB
+    PRIVATE
+        boost_log::boost_log
+        boost_log_setup::boost_log_setup
+        libzip::zip
+        ZLIB::ZLIB
 )
+
+# Optionally copy DLL dependencies to output (if needed, for local dev)
+# Uncomment if you want post-build DLL copy, but not needed for CI usually
+# add_custom_command(
+#     TARGET skins_generator
+#     POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#         "$<TARGET_FILE:ZLIB::ZLIB>"
+#         "$<TARGET_FILE_DIR:skins_generator>"
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#         "$<TARGET_FILE:libzip::zip>"
+#         "$<TARGET_FILE_DIR:skins_generator>"
+# )
