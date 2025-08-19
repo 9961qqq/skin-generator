@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Install vcpkg
         run: |
@@ -23,11 +23,6 @@ jobs:
         run: |
           .\vcpkg\vcpkg.exe install boost-log zlib libzip
 
-      # 可选：显示已安装的包，调试用
-      - name: List installed libraries
-        run: |
-          .\vcpkg\vcpkg.exe list
-
       - name: Configure CMake
         run: |
           cmake -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake .
@@ -36,9 +31,8 @@ jobs:
         run: |
           cmake --build . --config Release
 
-      # 可选：上传生成的可执行文件
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: skins_generator_bin
           path: ./bin/*
