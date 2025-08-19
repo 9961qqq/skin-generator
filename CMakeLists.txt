@@ -31,8 +31,8 @@ file(COPY
 )
 
 # Find dependencies using vcpkg CONFIG mode (CMake >= 3.31 compatible)
-find_package(boost_log CONFIG REQUIRED)
-find_package(boost_log_setup CONFIG REQUIRED)
+find_package(Boost.Log CONFIG REQUIRED)
+find_package(Boost.LogSetup CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(libzip CONFIG REQUIRED)
 
@@ -41,13 +41,13 @@ target_compile_options(skins_generator PRIVATE -O2)
 
 target_link_libraries(skins_generator
     PRIVATE
-        boost_log::boost_log
-        boost_log_setup::boost_log_setup
+        Boost::log
+        Boost::log_setup
         libzip::zip
         ZLIB::ZLIB
 )
 
-# Optionally copy DLL dependencies to output (if needed, for local dev)
+# Optionally copy DLL dependencies to output (if needed for local dev)
 # Uncomment if you want post-build DLL copy, but not needed for CI usually
 # add_custom_command(
 #     TARGET skins_generator
