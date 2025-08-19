@@ -1,9 +1,9 @@
-name: Build Skin Generator
+name: Build Skin Generatorhttps://github.com/9961qqq/skin-generator/tree/master
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 jobs:
