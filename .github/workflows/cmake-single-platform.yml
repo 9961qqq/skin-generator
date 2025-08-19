@@ -28,14 +28,17 @@ jobs:
           curl -LO https://libzip.org/download/libzip-1.10.1.tar.gz
           tar -xzf libzip-1.10.1.tar.gz
           cd libzip-1.10.1
-          cmake -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=../../vcpkg/scripts/buildsystems/vcpkg.cmake .
+          cmake -G "Visual Studio 17 2022" ^
+            -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake ^
+            -DCMAKE_INSTALL_PREFIX=../libzip_install .
           cmake --build . --config Release
           cmake --install . --config Release
           cd ..
 
       - name: Configure CMake
         run: |
-          cmake -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake .
+          cmake -G "Visual Studio 17 2022" ^
+            -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake .
 
       - name: Build
         run: |
