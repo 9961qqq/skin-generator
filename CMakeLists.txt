@@ -30,7 +30,7 @@ file(COPY
     DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
 )
 
-# Find dependencies using vcpkg CONFIG mode (CMake >= 3.31 compatible)
+# Dependencies (CMake >= 3.31, via vcpkg CONFIG mode)
 find_package(Boost.Log CONFIG REQUIRED)
 find_package(Boost.LogSetup CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
@@ -47,8 +47,7 @@ target_link_libraries(skins_generator
         ZLIB::ZLIB
 )
 
-# Optionally copy DLL dependencies to output (if needed for local dev)
-# Uncomment if you want post-build DLL copy, but not needed for CI usually
+# Optionally copy DLL dependencies to output (for local dev only; not needed in CI)
 # add_custom_command(
 #     TARGET skins_generator
 #     POST_BUILD
