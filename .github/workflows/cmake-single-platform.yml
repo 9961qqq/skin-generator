@@ -21,11 +21,7 @@ jobs:
 
       - name: Install dependencies with vcpkg
         run: |
-          .\vcpkg\vcpkg.exe install boost-log zlib libzip
-
-      - name: List Boost.Log config file
-        run: |
-          dir .\vcpkg\installed\x64-windows\share\boost-log
+          .\vcpkg\vcpkg.exe install libzip@1.10.1:x64-windows boost@1.83.0:x64-windows zlib@1.3:x64-windows
 
       - name: Configure CMake
         run: |
