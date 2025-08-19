@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies with vcpkg
         run: |
-          .\vcpkg\vcpkg.exe install boost-log boost-log-setup zlib
+          .\vcpkg\vcpkg.exe install boost-log zlib
 
       - name: Build libzip from source
         run: |
