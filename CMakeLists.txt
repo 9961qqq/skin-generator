@@ -6,10 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_PREFIX_PATH ".\vcpkg\installed\x64-windows")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# Ensure you have the correct path to libzip's CMake files
-set(libzip_DIR "D:/a/skin-generator/skin-generator/vcpkg/installed/x64-windows/share/libzip/cmake")
-
-
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 3)
 set(PROJECT_VERSION_PATCH 0)
