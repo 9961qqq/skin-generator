@@ -3,7 +3,7 @@ project(skins_generator)
 # Debug
 #set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_PREFIX_PATH ".\vcpkg\installed\x64-windows")
+set(CMAKE_PREFIX_PATH "./vcpkg/installed/x64-windows")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(PROJECT_VERSION_MAJOR 0)
