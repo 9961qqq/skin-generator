@@ -13,6 +13,10 @@ set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT
 # 设置BOOST_ROOT
 set(BOOST_ROOT "D:/a/skin-generator/skin-generator/vcpkg/installed/x64-windows")
 
+# 指定ZLIB的路径
+set(ZLIB_INCLUDE_DIR "D:/a/skin-generator/skin-generator/vcpkg/installed/x64-windows/include")
+set(ZLIB_LIBRARY "D:/a/skin-generator/skin-generator/vcpkg/installed/x64-windows/lib/zlib.lib")
+
 # 查找Boost.Log和Boost.Setup
 find_package(Boost REQUIRED COMPONENTS log log_setup)
 
