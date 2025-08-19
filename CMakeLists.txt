@@ -30,11 +30,15 @@ file(COPY
     DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
 )
 
+# Add vcpkg toolchain path if not already set
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
+endif()
+
 # 依赖查找（全部用 CONFIG 模式！）
-find_package(Boost.Log CONFIG REQUIRED)
-find_package(Boost.LogSetup CONFIG REQUIRED)
+find_package(Boost REQUIRED COMPONENTS log log_setup)
 find_package(ZLIB REQUIRED)
-find_package(libzip CONFIG REQUIRED)
+find_package(libzip REQUIRED)
 
 add_executable(skins_generator src/Generator.cpp ${HEADER_FILES} ${SOURCE_FILES})
 target_compile_options(skins_generator PRIVATE -O2)
