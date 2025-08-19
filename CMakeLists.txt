@@ -10,6 +10,12 @@ set(PROJECT_VERSION_PATCH 0)
 set(PROJECT_RELEASE_TYPE "release")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}-${PROJECT_RELEASE_TYPE}")
 
+# 设置BOOST_ROOT
+set(BOOST_ROOT "D:/a/skin-generator/skin-generator/vcpkg/installed/x64-windows")
+
+# 查找Boost.Log和Boost.Setup
+find_package(Boost REQUIRED COMPONENTS log log_setup)
+
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/config.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/config.h"
