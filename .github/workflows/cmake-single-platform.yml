@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies with vcpkg
         run: |
-          .\vcpkg\vcpkg.exe .\vcpkg\vcpkg.exe install libzip:x64-windows boost:x64-windows zlib:x64-windows boost-log:x64-windows boost-log-setup:x64-windows
+          .\vcpkg\vcpkg.exe install libzip:x64-windows boost:x64-windows zlib:x64-windows boost-log:x64-windows boost-log-setup:x64-windows
 
       - name: Configure CMake
         run: |
